@@ -1,5 +1,6 @@
 package com.testTaskPoll.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Email;
@@ -26,9 +27,14 @@ public class Poll extends ResourceSupport implements Serializable {
     @Size(min=3, max=90)
     private String title;
 
-    @Column(name = "content")
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "poll_id")
+    @JsonManagedReference
+    @OrderBy
     @NotEmpty
-    private String content;
+    @Size(min=1)
+    private Set<Content> contents;
 
     @Column(name = "hash")
     private String hash;
@@ -40,13 +46,16 @@ public class Poll extends ResourceSupport implements Serializable {
     @Column(name = "closed")
     private boolean closed;
 
+
+    /*
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name="poll_id")
     @JsonManagedReference
     @OrderBy
-    @NotEmpty
-    @Size(min=2, max=6)
+    //@NotEmpty
+    @Size(min=2)
     private Set<Option> options;
+    */
 
 
     public Poll() {
@@ -68,14 +77,6 @@ public class Poll extends ResourceSupport implements Serializable {
         this.title = title;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     public Timestamp getCreatedAt() {
         return createdAt;
     }
@@ -91,7 +92,7 @@ public class Poll extends ResourceSupport implements Serializable {
     public void setClosed(boolean closed) {
         this.closed = closed;
     }
-
+/*
     public Set<Option> getOptions() {
         return options;
     }
@@ -99,7 +100,7 @@ public class Poll extends ResourceSupport implements Serializable {
     public void setOptions(Set<Option> options) {
         this.options = options;
     }
-
+*/
     public String getHash() {
         return hash;
     }
@@ -107,4 +108,12 @@ public class Poll extends ResourceSupport implements Serializable {
     public void setHash(String hash) {
         this.hash = hash;
     }
+    public Set<Content> getContents() {
+        return contents;
+    }
+
+    public void setContents(Set<Content> contents) {
+        this.contents = contents;
+    }
+
 }
