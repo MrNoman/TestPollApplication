@@ -34,7 +34,7 @@ public class Content implements Serializable {
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name="content_id")
     @JsonManagedReference
-    @OrderBy
+    @OrderBy ("id ASC")
    // @NotEmpty
     @Size(min=2)
     private Set<Option> options;

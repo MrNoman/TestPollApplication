@@ -30,7 +30,7 @@ public class ResultsController extends ExceptionHandlerController{
     @RequestMapping(value="/results/{hash}", method= RequestMethod.GET)
     public Map<String, Object> getResults(@PathVariable("hash") String pollHash) throws RestException{
 
-        Poll poll = pollRepository.findByHash(pollHash);
+        Poll poll = pollRepository.findPoolByHash(pollHash);
         if (poll == null){
             return Ajax.errorResponse("No such poll found");
         }
@@ -46,6 +46,8 @@ public class ResultsController extends ExceptionHandlerController{
                     optionCount	= new OptionCount();
                     optionCount.setOptionId(v.getOption().getId());
                     optionCount.setOptionValue(v.getOption().getValue());
+                    optionCount.setQuestionId(v.getOption().getContent().getId());
+                    optionCount.setQuestionValue(v.getOption().getContent().getQuestion());
                     tempMap.put(v.getOption().getId(), optionCount);
                 }
                 optionCount.setCounter(optionCount.getCounter()+1);

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OptionRepository extends CrudRepository<Option, Integer> {
 
-    @Query(value="SELECT o.id, o.poll_id, o.value, o.created_at " +
+    @Query(value="SELECT o.id, o.poll_id, o.content_id, o.value, o.created_at " +
             "FROM options AS o " +
             "WHERE o.id = :voteId",
             nativeQuery	= true)

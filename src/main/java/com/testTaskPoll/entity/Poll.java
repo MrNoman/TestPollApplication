@@ -31,7 +31,7 @@ public class Poll extends ResourceSupport implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "poll_id")
     @JsonManagedReference
-    @OrderBy
+    @OrderBy ("id ASC")
     @NotEmpty
     @Size(min=1)
     private Set<Content> contents;

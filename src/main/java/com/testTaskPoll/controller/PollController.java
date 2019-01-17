@@ -70,7 +70,7 @@ public class PollController extends ExceptionHandlerController {
             if (pollHash == null){
                 return Ajax.errorResponse("Incorrect data");
             }
-            Poll poll = pollRepository.findByHash(pollHash);
+            Poll poll = pollRepository.findPoolByHash(pollHash);
 
             if (poll == null){
                 return Ajax.errorResponse("No such poll found");
@@ -89,7 +89,7 @@ public class PollController extends ExceptionHandlerController {
             if (pollHash == null){
                 return Ajax.errorResponse("Incorrect data");
             }
-            Poll poll = pollRepository.findByHash(pollHash);
+            Poll poll = pollRepository.findPoolByHash(pollHash);
             if (poll == null){
                 return Ajax.errorResponse("No such poll found");
             }

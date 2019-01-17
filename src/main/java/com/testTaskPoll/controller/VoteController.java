@@ -1,7 +1,6 @@
 package com.testTaskPoll.controller;
 
 import com.testTaskPoll.PollApplication;
-import com.testTaskPoll.entity.Option;
 import com.testTaskPoll.repository.OptionRepository;
 import com.testTaskPoll.repository.PollRepository;
 import com.testTaskPoll.repository.VoteRepository;
@@ -42,7 +41,7 @@ public class VoteController extends ExceptionHandlerController {
                                           HttpServletRequest request) throws RestException{
 
         try {
-           Poll poll = pollRepository.findByHash(pollHash);
+           Poll poll = pollRepository.findPoolByHash(pollHash);
            if (poll == null){
                return Ajax.errorResponse("You can't vote. Poll not found.");
            }
@@ -68,7 +67,7 @@ public class VoteController extends ExceptionHandlerController {
     @RequestMapping(value="/polls/{pollHash}/votes", method=RequestMethod.GET)
     public	Map<String, Object>	getAllVotes(@PathVariable String pollHash){
         Iterable<Vote> votes = voteRepository.findByPoll(pollHash);
-        Poll poll = pollRepository.findByHash(pollHash);
+        Poll poll = pollRepository.findPoolByHash(pollHash);
         if (poll == null){
             return Ajax.errorResponse("No such poll found.");
         }

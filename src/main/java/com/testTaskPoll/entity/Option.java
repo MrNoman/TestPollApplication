@@ -24,6 +24,7 @@ public class Option implements Serializable {
             @JoinColumn (name="poll_id", referencedColumnName = "poll_id")
     })
     @JsonBackReference
+    @OrderBy ("id ASC")
     private Content content;
 
     @Column(name = "value")
@@ -68,7 +69,7 @@ public class Option implements Serializable {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
-/*
+
     public Content getContent() {
         return content;
     }
@@ -77,5 +78,5 @@ public class Option implements Serializable {
         this.content = content;
     }
 
-*/
+
 }
