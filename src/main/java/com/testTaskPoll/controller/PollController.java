@@ -47,8 +47,7 @@ public class PollController extends ExceptionHandlerController {
 
     @RequestMapping(value="/polls",	method=RequestMethod.POST)
     public Map<String, Object> createPoll(@Valid @RequestBody Poll poll) throws RestException{
-        System.out.println(poll);
-        try {
+       try {
 
             poll = pollRepository.save(poll);
             String hash = getHashValue(poll.getPollId(),poll.getTitle(), poll.getCreatedAt().toString());

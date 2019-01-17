@@ -45,15 +45,7 @@ public class Option implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-/*
-    public Poll getPoll() {
-        return poll;
-    }
 
-    public void setPoll(Poll poll) {
-        this.poll = poll;
-    }
-*/
     public String getValue() {
         return value;
     }

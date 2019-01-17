@@ -1,6 +1,7 @@
 package com.testTaskPoll.controller;
 
 import com.testTaskPoll.PollApplication;
+import com.testTaskPoll.entity.VotesWrapper;
 import com.testTaskPoll.repository.OptionRepository;
 import com.testTaskPoll.repository.PollRepository;
 import com.testTaskPoll.repository.VoteRepository;
@@ -17,7 +18,9 @@ import com.testTaskPoll.util.RestException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 public class VoteController extends ExceptionHandlerController {
@@ -34,6 +37,35 @@ public class VoteController extends ExceptionHandlerController {
     @Autowired
     @Qualifier("pollRepository")
     private PollRepository pollRepository;
+
+
+    @RequestMapping(value = "/polls/{pollHash}/votes", method = RequestMethod.PUT)
+    public Map<String,Object> createMutipleVotes(@PathVariable String pollHash, @Valid @RequestBody VotesWrapper wrapper,
+                                                 HttpServletRequest request) throws RestException{
+
+        try {
+            Poll poll = pollRepository.findPoolByHash(pollHash);
+            if (poll == null){
+                return Ajax.errorResponse("You can't vote. Poll not found.");
+            }
+
+            if (poll.isClosed()){
+                return Ajax.errorResponse("You can't vote. The poll was closed.");
+            }
+
+            System.out.println("!");
+
+            for (Vote v:wrapper.getVotes()) {
+                if (voteRepository.optionMatchesPoll(v.getOption().getId(),pollHash) == null){
+                    System.out.println( v.getOption().getValue() + " vote doesn't matches poll.");
+                } else voteRepository.save(v);
+            }
+
+            return Ajax.emptyResponse();
+        }catch (Exception e){
+            throw new RestException(e);
+        }
+    }
 
 
     @RequestMapping(value="/polls/{pollHash}/votes", method = RequestMethod.POST)
