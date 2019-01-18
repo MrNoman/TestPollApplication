@@ -1,7 +1,7 @@
 package com.testTaskPoll.controller;
 
 import com.testTaskPoll.PollApplication;
-import com.testTaskPoll.entity.VotesWrapper;
+import com.testTaskPoll.dto.VotesWrapper;
 import com.testTaskPoll.repository.OptionRepository;
 import com.testTaskPoll.repository.PollRepository;
 import com.testTaskPoll.repository.VoteRepository;
@@ -18,9 +18,7 @@ import com.testTaskPoll.util.RestException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Map;
-import java.util.Set;
 
 @RestController
 public class VoteController extends ExceptionHandlerController {
@@ -43,6 +41,7 @@ public class VoteController extends ExceptionHandlerController {
     public Map<String,Object> createMutipleVotes(@PathVariable String pollHash, @Valid @RequestBody VotesWrapper wrapper,
                                                  HttpServletRequest request) throws RestException{
 
+        StringBuffer responseText = new StringBuffer();
         try {
             Poll poll = pollRepository.findPoolByHash(pollHash);
             if (poll == null){
@@ -57,11 +56,15 @@ public class VoteController extends ExceptionHandlerController {
 
             for (Vote v:wrapper.getVotes()) {
                 if (voteRepository.optionMatchesPoll(v.getOption().getId(),pollHash) == null){
-                    System.out.println( v.getOption().getValue() + " vote doesn't matches poll.");
-                } else voteRepository.save(v);
+                    responseText.append("\nOption id'" + v.getOption().getId() + "' vote doesn't matches poll.");
+                } else {
+                    responseText.append("\nOption id'" + v.getOption().getId() + "' successfully added to votes.");
+                    voteRepository.save(v);
+                }
             }
+            responseText.append("\nDone!");
 
-            return Ajax.emptyResponse();
+            return Ajax.emptyResponse(responseText);
         }catch (Exception e){
             throw new RestException(e);
         }

@@ -1,9 +1,7 @@
 package com.testTaskPoll.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -46,18 +44,6 @@ public class Poll extends ResourceSupport implements Serializable {
     @Column(name = "closed")
     private boolean closed;
 
-
-    /*
-    @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="poll_id")
-    @JsonManagedReference
-    @OrderBy
-    //@NotEmpty
-    @Size(min=2)
-    private Set<Option> options;
-    */
-
-
     public Poll() {
     }
 
@@ -92,15 +78,7 @@ public class Poll extends ResourceSupport implements Serializable {
     public void setClosed(boolean closed) {
         this.closed = closed;
     }
-/*
-    public Set<Option> getOptions() {
-        return options;
-    }
 
-    public void setOptions(Set<Option> options) {
-        this.options = options;
-    }
-*/
     public String getHash() {
         return hash;
     }

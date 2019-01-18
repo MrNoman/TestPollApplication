@@ -1,4 +1,6 @@
-package com.testTaskPoll.entity;
+package com.testTaskPoll.dto;
+
+import com.testTaskPoll.entity.Vote;
 
 import java.util.List;
 

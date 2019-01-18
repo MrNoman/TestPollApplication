@@ -25,6 +25,15 @@ public class Ajax {
         return response;
     }
 
+    public static Map<String, Object> emptyResponse(StringBuffer providedResponse) {
+        Map<String, Object> response = new HashMap<String, Object>();
+        response.put("result", "success");
+        response.put("message",providedResponse);
+        LOG.info("Ajax returned empty response: " + response);
+        return response;
+    }
+
+
     public static Map<String, Object> errorResponse(String errorMessage) {
         Map<String, Object> response = new HashMap<String, Object>();
         response.put("result", "error");
