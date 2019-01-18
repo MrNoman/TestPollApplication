@@ -52,9 +52,7 @@ public class VoteController extends ExceptionHandlerController {
                 return Ajax.errorResponse("You can't vote. The poll was closed.");
             }
 
-            System.out.println("!");
-
-            for (Vote v:wrapper.getVotes()) {
+             for (Vote v:wrapper.getVotes()) {
                 if (voteRepository.optionMatchesPoll(v.getOption().getId(),pollHash) == null){
                     responseText.append("\nOption id'" + v.getOption().getId() + "' vote doesn't matches poll.");
                 } else {
